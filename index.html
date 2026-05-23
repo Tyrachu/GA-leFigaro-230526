@@ -1,0 +1,743 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Figaro · Attal 与 2027 总统大选</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,wght@0,400;0,700;0,900;1,400;1,900&display=swap" rel="stylesheet">
+<style>
+:root{
+  --fig-navy:#122148;
+  --fig-navy-dark:#0A1530;
+  --fig-blue:#1B4F8E;
+  --fig-red:#B91C2D;
+  --noir:#181818;
+  --gris:#8B8B8B;
+  --gris-fonce:#3B3B3B;
+  --gris-clair:#666;
+  --gris-ligne:#D9D9D9;
+  --bg-quote:#F4F7FB;
+  --bg-annot:#FFF8E1;
+  --orange:#C7842F;
+  --ink-zh:#0D2747;
+  --ink-fr:#1B4F8E;
+  --serif:"Times New Roman",Times,"Songti SC","STSong","Source Han Serif SC",serif;
+  --sans:Arial,Helvetica,"PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;
+  --wordmark:"Bodoni Moda","Bodoni 72","Bodoni MT","Didot","Le Figaro",Garamond,"Times New Roman",serif;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%;}
+body{
+  font-family:var(--sans);
+  font-size:16px;
+  line-height:1.7;
+  color:var(--noir);
+  background:#FAFAF8;
+  max-width:760px;
+  margin:0 auto;
+  padding:0 18px 80px;
+}
+
+/* ===== Sticky control bar ===== */
+.ctrl{
+  position:sticky;top:0;z-index:100;
+  background:rgba(250,250,248,0.95);
+  backdrop-filter:saturate(140%) blur(8px);
+  border-bottom:1px solid var(--gris-ligne);
+  display:flex;justify-content:flex-start;align-items:center;
+  padding:8px 0;
+  font-size:12px;
+  margin:0 -18px 0;
+  padding-left:18px;padding-right:18px;
+}
+.ctrl label{display:inline-flex;align-items:center;gap:6px;cursor:pointer;color:var(--gris-fonce);}
+
+/* ===== IG-style header ===== */
+.ig{display:flex;align-items:center;gap:11px;padding:18px 0 14px;}
+.ig-ring{
+  width:46px;height:46px;border-radius:50%;
+  background:linear-gradient(45deg,#feda75,#fa7e1e,#d62976,#962fbf,#4f5bd5);
+  display:flex;align-items:center;justify-content:center;
+  padding:2px;
+}
+.ig-ring-inner{
+  width:100%;height:100%;
+  background:#1A2748;
+  border-radius:50%;
+  overflow:hidden;
+}
+.ig-ring-inner img{
+  width:100%;height:100%;
+  display:block;
+  object-fit:cover;
+}
+.ig-name-wrap{display:flex;flex-direction:column;gap:2px;}
+.ig-name{
+  font-family:var(--sans);font-weight:700;font-size:14px;color:#000;
+  line-height:1.1;
+}
+.ig-tagline{
+  font-family:var(--wordmark);
+  font-style:italic;
+  font-size:10.5px;
+  color:var(--gris-clair);
+  line-height:1.2;
+  max-width:240px;
+}
+
+/* ===== Date strip ===== */
+.datestrip{
+  border-top:1px solid var(--gris-ligne);
+  border-bottom:2px solid var(--fig-navy);
+  padding:9px 0 8px;
+  font-size:11px;
+  color:var(--gris);
+  letter-spacing:1.5px;
+  text-transform:uppercase;
+  display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px;
+}
+.datestrip .theme{color:var(--fig-navy);font-weight:700;letter-spacing:0.8px;text-transform:none;}
+
+/* ===== Claude stamp ===== */
+.claude-print{
+  font-family:var(--serif);
+  font-style:italic;
+  font-size:11.5px;
+  color:var(--gris);
+  margin:9px 0 22px;
+  text-align:right;
+}
+
+/* ===== TOC ===== */
+.toc{
+  background:var(--bg-quote);
+  border-left:3px solid var(--fig-navy);
+  padding:14px 18px;
+  margin:20px 0 32px;
+}
+.toc-label{
+  font-size:11px;letter-spacing:1.5px;color:var(--fig-navy);
+  font-weight:700;text-transform:uppercase;margin-bottom:8px;
+  display:flex;justify-content:space-between;align-items:baseline;gap:8px;
+}
+.toc-time{
+  font-weight:400;
+  letter-spacing:0.5px;
+  text-transform:none;
+  color:var(--gris-clair);
+  font-style:italic;
+  font-family:var(--serif);
+  font-size:11.5px;
+}
+.toc ol{list-style:none;counter-reset:tocnum;}
+.toc li{
+  counter-increment:tocnum;
+  border-bottom:1px dotted var(--gris-ligne);
+  font-size:14px;
+}
+.toc li:last-child{border-bottom:0;}
+.toc a{
+  display:block;
+  position:relative;
+  padding:8px 10px 8px 36px;
+  color:var(--noir);
+  text-decoration:none;
+  transition:background 0.2s ease;
+  border-radius:2px;
+}
+.toc a::before{
+  content:counter(tocnum,decimal-leading-zero);
+  position:absolute;left:10px;top:8px;
+  color:var(--fig-navy);font-weight:700;font-family:var(--serif);
+}
+.toc a:hover{background:rgba(18,33,72,0.04);}
+.toc a:active{background:rgba(18,33,72,0.14);}
+.toc li.active > a{background:rgba(18,33,72,0.09);}
+.toc .sub{
+  font-size:11.5px;
+  color:var(--gris-clair);
+  font-style:italic;
+  margin-top:3px;
+  display:block;
+}
+
+/* ===== Article structure ===== */
+article{margin:42px 0;}
+.rubrique{
+  color:var(--fig-red);
+  font-size:11px;
+  letter-spacing:1.5px;
+  text-transform:uppercase;
+  font-weight:700;
+  margin-bottom:10px;
+}
+.rubrique-pol{color:var(--fig-navy);}
+
+h1.titre{
+  font-family:var(--serif);
+  font-size:32px;
+  font-weight:900;
+  line-height:1.18;
+  letter-spacing:-0.3px;
+  color:var(--noir);
+  margin-bottom:14px;
+}
+.titre-fr{
+  font-family:var(--serif);
+  font-style:italic;
+  font-size:15px;
+  color:var(--gris-fonce);
+  line-height:1.4;
+  margin-bottom:14px;
+  font-weight:400;
+}
+.chapo{
+  font-family:var(--serif);
+  font-size:17px;
+  line-height:1.55;
+  color:var(--gris-fonce);
+  margin-bottom:18px;
+  font-weight:400;
+}
+.signature{
+  font-size:12px;
+  color:var(--gris-clair);
+  font-style:italic;
+  margin-bottom:22px;
+  border-top:1px solid var(--gris-ligne);
+  border-bottom:1px solid var(--gris-ligne);
+  padding:7px 0;
+}
+
+h2.intertitre{
+  font-family:var(--serif);
+  font-size:21px;
+  font-weight:700;
+  color:var(--noir);
+  margin:26px 0 12px;
+  line-height:1.3;
+}
+
+article p{
+  margin-bottom:15px;
+  font-size:16px;
+  line-height:1.7;
+  text-align:justify;
+}
+
+article p .fr{
+  font-family:var(--serif);font-style:italic;
+  color:var(--ink-fr);
+  font-size:14.5px;
+}
+
+/* ===== Lead bilingual quote ===== */
+blockquote.lead{
+  background:var(--bg-quote);
+  border-left:4px solid var(--fig-navy);
+  padding:18px 20px;
+  margin:22px 0;
+}
+blockquote.lead .zh{
+  font-family:var(--serif);
+  font-size:15.5px;
+  color:var(--ink-zh);
+  line-height:1.6;
+  font-weight:400;
+}
+blockquote.lead .sep{
+  border-top:1px dashed var(--fig-blue);
+  margin:11px 0 9px;
+  opacity:0.5;
+}
+blockquote.lead .fr{
+  font-family:var(--serif);
+  font-style:italic;
+  font-size:12.5px;
+  color:var(--ink-fr);
+  line-height:1.55;
+}
+blockquote.lead .src{
+  font-size:11.5px;
+  color:var(--gris-clair);
+  margin-top:10px;
+  text-align:right;
+}
+
+.lead .ellipsis{
+  text-align:center;
+  color:var(--gris-clair);
+  font-size:18px;
+  letter-spacing:6px;
+  margin:6px 0 8px;
+  opacity:0.6;
+}
+
+/* ===== Inline quote ===== */
+.quote-fr{
+  background:#EEF3F9;
+  padding:2px 6px;
+  font-family:var(--serif);
+  font-style:italic;
+  color:var(--ink-fr);
+  font-size:14.5px;
+  border-radius:2px;
+}
+
+/* ===== Annotations ===== */
+.annot{
+  border-bottom:1px dashed var(--fig-blue);
+  cursor:pointer;
+  position:relative;
+}
+.annot sup{
+  color:var(--fig-blue);
+  font-size:13px;
+  font-weight:700;
+  margin-left:1px;
+}
+.annot-text{
+  display:none;
+  background:var(--bg-annot);
+  border-left:3px solid var(--orange);
+  padding:11px 14px;
+  margin:8px 0 14px;
+  font-size:13.5px;
+  line-height:1.6;
+  color:var(--gris-fonce);
+}
+.annot-text.show{display:block;}
+.annot-text strong{color:var(--noir);}
+body.annot-all .annot-text{display:block;}
+
+/* ===== Encadré sidebar ===== */
+.encadre{
+  background:var(--bg-quote);
+  border-top:3px solid var(--fig-navy);
+  padding:16px 18px;
+  margin:24px 0;
+}
+.encadre-label{
+  font-size:10.5px;letter-spacing:1.5px;color:var(--fig-navy);
+  font-weight:700;text-transform:uppercase;margin-bottom:6px;
+}
+.encadre h3{
+  font-family:var(--serif);font-size:19px;color:var(--noir);
+  font-weight:700;margin-bottom:4px;
+}
+.encadre-sub{
+  font-size:11.5px;color:var(--gris-clair);font-style:italic;margin-bottom:14px;
+}
+.cand{
+  display:flex;align-items:baseline;gap:10px;
+  padding:8px 0;border-bottom:1px solid var(--gris-ligne);
+  font-size:13.5px;
+}
+.cand:last-child{border-bottom:0;}
+.cand-num{
+  width:22px;
+  color:var(--gris);
+  font-family:var(--serif);font-weight:700;font-size:13px;
+}
+.cand.hl{background:#E8EEF6;margin:0 -18px;padding-left:18px;padding-right:18px;border-bottom:1px solid #D6E0EC;}
+.cand.hl .cand-num{
+  background:var(--fig-navy);color:#fff;border-radius:50%;
+  width:22px;height:22px;display:flex;align-items:center;justify-content:center;
+  font-size:11px;
+}
+.cand-name{flex:1;font-weight:700;color:var(--noir);}
+.cand-name em{font-style:italic;font-weight:400;color:var(--gris-clair);font-size:12px;margin-left:4px;}
+.cand-chip{
+  background:#fff;border:1px solid var(--gris-ligne);
+  font-size:10px;letter-spacing:0.5px;padding:2px 7px;color:var(--gris-fonce);
+  text-transform:uppercase;
+}
+.cand-meta{font-size:11px;color:var(--gris-clair);font-style:italic;}
+
+/* ===== Back-to-top ===== */
+.totop{
+  position:fixed;bottom:20px;right:20px;
+  background:var(--fig-navy);color:#fff;
+  width:42px;height:42px;border-radius:50%;
+  display:none;align-items:center;justify-content:center;
+  font-size:18px;text-decoration:none;
+  border:0;cursor:pointer;
+  box-shadow:0 2px 8px rgba(0,0,0,0.18);
+}
+.totop.show{display:flex;}
+
+/* ===== Footer ===== */
+.copyright{
+  margin-top:54px;
+  padding:22px 0 12px;
+  border-top:2px solid var(--fig-navy);
+  font-size:12px;
+  line-height:1.65;
+  color:var(--gris-fonce);
+}
+.copyright .block-zh{margin-bottom:14px;}
+.copyright .block-zh p{margin-bottom:4px;}
+.copyright .sep-line{
+  border:0;border-top:1px dashed var(--gris-ligne);
+  margin:14px 0;
+}
+.copyright .block-fr p{
+  font-family:var(--serif);font-style:italic;
+  margin-bottom:4px;color:var(--gris-clair);font-size:11.5px;
+}
+.footer-claude{
+  font-family:var(--serif);font-style:italic;
+  font-size:11px;color:var(--gris);
+  margin-top:18px;text-align:right;
+}
+
+/* ===== Drop cap ===== */
+.dropcap::first-letter{
+  font-family:var(--serif);
+  font-size:48px;
+  font-weight:900;
+  color:var(--fig-navy);
+  float:left;
+  line-height:0.95;
+  padding:3px 7px 0 0;
+}
+
+@media (max-width:480px){
+  h1.titre{font-size:26px;}
+  article p{text-align:left;}
+  body{padding:0 14px 80px;}
+  .ctrl{margin:0 -14px;padding-left:14px;padding-right:14px;}
+}
+</style>
+</head>
+<body>
+
+<!-- ===== Sticky control ===== -->
+<div class="ctrl">
+  <label><input type="checkbox" id="annotAll"> <span id="annotLabel">Notes</span></label>
+</div>
+
+<!-- ===== IG header ===== -->
+<div class="ig">
+  <div class="ig-ring"><div class="ig-ring-inner"><img src="data:image/png;base64,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" alt="Le Figaro" /></div></div>
+  <div class="ig-name-wrap">
+    <div class="ig-name">lefigaro</div>
+    <div class="ig-tagline">«&nbsp;Sans la liberté de blâmer, il n'est point d'éloge flatteur&nbsp;» — Beaumarchais</div>
+  </div>
+</div>
+
+<!-- ===== Date strip ===== -->
+<div class="datestrip">
+  <span>SAMEDI 23 · DIMANCHE 24 MAI 2026 · N° 25 422</span>
+  <span class="theme">Présidentielle 2027 · Attal 入场 · 原文 PAGE 3</span>
+</div>
+
+<!-- ===== Claude stamp ===== -->
+<p class="claude-print">Claude (Anthropic) 译</p>
+
+<!-- ===== TOC ===== -->
+<nav class="toc" aria-label="目录">
+  <div class="toc-label">
+    <span>本期摘译目录</span>
+    <span class="toc-time">全文阅读约 15 分钟</span>
+  </div>
+  <ol>
+    <li>
+      <a href="#piece1">
+        <span class="title">Aveyron 田野上，Attal 启动他的「常态化竞选」</span>
+        <span class="sub">Loris Boichot · 特派 Mur-de-Barrez</span>
+      </a>
+    </li>
+    <li>
+      <a href="#piece2">
+        <span class="title">Philippe、Attal、Retailleau：两人对一人</span>
+        <span class="sub">Guillaume Tabard · 评论</span>
+      </a>
+    </li>
+    <li>
+      <a href="#piece3">
+        <span class="title">既然候选人都拒绝党内初选，那就有「野生初选」</span>
+        <span class="sub">Albert Zennou · 时评</span>
+      </a>
+    </li>
+  </ol>
+</nav>
+
+<!-- ============================================================ -->
+<!-- PIECE 1: BOICHOT - AVEYRON DECLARATION                       -->
+<!-- ============================================================ -->
+<article id="piece1">
+  <div class="rubrique rubrique-pol">Politique · Présidentielle 2027</div>
+  <h1 class="titre">Aveyron 田野上，Attal 启动他的「常态化竞选」</h1>
+  <p class="titre-fr">Dans l'Aveyron, le candidat Attal lance sa «campagne permanente»</p>
+  <p class="chapo">这位 Vanves 议员要在 Édouard Philippe 面前抢得先机，试图洗去自己「巴黎都市议员」的标签，并承诺一场 <em>rupture</em>──决裂。</p>
+  <p class="signature">Loris Boichot · 特派 Mur-de-Barrez (Aveyron) · 阅读约 7 分钟</p>
+
+  <p class="dropcap">中世纪村庄的<em>lauze</em>石板屋顶下的广场，露天的一场简短「公民辩论」，几米开外一只热气腾腾的 <span class="annot" data-pop="aligot"><em>aligot</em><sup>*</sup></span>奶酪土豆泥大锅，然后是一句话：「我决定参选共和国总统。」</p>
+  <div class="annot-text" id="ann-aligot">
+    <strong>aligot</strong>　Aubrac 高原（Aveyron–Lozère–Cantal 三省交界）的传统菜，以土豆泥拌入新鲜的 tomme fraîche 奶酪和大蒜烹制，需边煮边拉出长长的丝。属于 Aubrac 地理保护范围内的乡土名菜，在政治传播中具有「<em>la France rurale</em>──乡土法兰西」的强烈符号意味。Attal 选择在 aligot 锅边宣布参选，本身就是一道精心设计的视觉信号。
+  </div>
+
+  <p>2026 年 5 月 22 日星期五，Gabriel Attal 在 Aveyron 省的 Mur-de-Barrez，在约一百名居民和官员面前正式踏入总统竞选。这位 RE 党魁及党团领袖在挂着三色旗与欧盟旗的镇政府前表态：</p>
+
+  <blockquote class="lead">
+    <p class="zh"><em>«Je vais vous parler avec mon cœur, surtout aujourd’hui : moi j’aime la France, j’aime passionnément la France.»</em></p>
+    <p class="ellipsis">…</p>
+    <p class="zh"><em>Il souhaite «faire renouer» le pays avec «la promesse de l’élévation», «individuelle» et «collective».</em></p>
+    <p class="zh">他希望让国家重新接续上「<em>个人</em>与<em>集体</em>的、向上攀升的允诺」。</p>
+    <p class="src">── Gabriel Attal · 2027 总统候选人</p>
+  </blockquote>
+
+  <p>这座只有 700 人的小镇的镇长 Pierre Ignace──RE 党籍──向他抛出了那道<span class="annot" data-pop="roig">关键的问题<sup>*</sup></span>，模板正是 2002 年 Avignon 女镇长 Marie-Josée Roig 问 Jacques Chirac 是否参选的那一幕。</p>
+  <div class="annot-text" id="ann-roig">
+    <strong>Marie-Josée Roig 2002 提问 Chirac</strong>　2002 年初，时任 Avignon 镇长 Marie-Josée Roig 在一场地方活动中「即兴」向 Jacques Chirac 提问：您会不会再次参选？Chirac 借此「自然」地宣布连任决心。这一幕成为法国政治传播史上的经典模板：以地方民选官员发问的形式，让一场早已周密筹划的参选宣告显得来自民间召唤、回应基层期待。Boichot 在文中点明 Pierre Ignace 的问话「sur le modèle de Jacques Chirac」——正是要读者看清这套舞台调度。
+  </div>
+
+  <p>Ignace 稍早接待了他、带他见了几位农民。「欢迎来到这片法兰西乡土」，他对着话筒说，这是「远离各大都会」的一片土地，「需要被看见」。星期三，这位镇长曾用一封神秘的电邮，把镇民们叫来参加一场「公民大辩论」，再接一场「共和宴」，并预告会有「一位全国级政治嘉宾」到场──没有点 Attal 的名，尽管他的到访早就传开了。</p>
+
+  <p>这场看似即兴的宣告，其实经过精心准备。这位 Hauts-de-Seine 省 Vanves 选区的议员，走进村广场时受到掌声欢迎；与右翼对手 Édouard Philippe、Bruno Retailleau 不同，他既不愿接受周报访谈，也不愿出现在晚间八点的电视新闻里──那种形式他认为太陈旧，尽管周六他还是会上 TF1。前总理 Attal 宁愿先「贴近法国人」，他希望借此修正自己「都市议员」的形象──毕竟他出身于巴黎极时髦的第 6 区，所执掌的政党也常被批评地方根基薄弱。</p>
+
+  <blockquote class="lead">
+    <p class="zh">「他<span class="annot" data-pop="chiraq">Chirac 化了，也 Castex 化了<sup>*</sup></span>。」他的一位顾问、前 Macronisme 议员 Patrick Vignal 如此断言。「他正在走向<em>真法国</em>──那片我们必须重新去俘获人心的土地，因为除了 RN 之外，已经没人再跟他们说话了。」</p>
+    <p class="sep"></p>
+    <p class="fr">«Il s'est "chiraquisé" et "castexisé", assure l'un de ses conseillers présents, l'ancien député macroniste Patrick Vignal. Il va dans la vraie France, celle dont on a besoin de reconquérir les cœurs parce que plus personne ne lui parle, à part le RN.»</p>
+    <p class="src">── Patrick Vignal · Attal 顾问</p>
+  </blockquote>
+  <div class="annot-text" id="ann-chiraq">
+    <strong>«chiraquisé» / «castexisé»</strong>　两个临时构造的政治动词。「chiraquiser」指模仿 Jacques Chirac 在乡村集市间挤手、拍牛屁股的「乡土总统」风格──Chirac 是真正深入 Corrèze 田间的政治家。「castexiser」则更近，指模仿前总理 Jean Castex 的口音浓厚、亲切平易的南法本色路线（他是 Pyrénées-Orientales 省 Prades 的市长）。这两个动词放在一起，等于说 Attal 正在主动卸下「巴黎第六区的早熟金童」标签，往本土厚重感转型。Vignal 这句话表面是辩护，潜台词却是承认转型本身是策略性的。
+  </div>
+
+  <h2 class="intertitre">「Attal 这股劲：他能让人想跟随」</h2>
+
+  <p>有条不紊的 Attal 把自己的传播节奏拆解成一段段「<em>séquences</em>」：4 月出版一本书──《En homme libre》（Éditions de l'Observatoire），并寄了一本给国家元首；之后是一轮签售；5 月 12 日 RE 全国委员会的一次有利投票；接着是 Aveyron 这场正式声明；以及 5 月 30 日已敲定的巴黎大会。预计将在随后的周末散发约 50 万张传单、贴出 10 万张海报。</p>
+
+  <p>「Attal 有这股劲：他能让人想跟随，」RE 议员 Pieyre-Alexandre Anglade 这样评价。他和另外几位议员──Prisca Thevenot、Franck Riester、Paul Midy……──一道赶来 Mur-de-Barrez 站台。</p>
+
+  <p>周五在镇广场上，面对几位居民──自由执业护士、教育部公务员、兽医……──这位三十多岁的政治人物逐条铺开他的优先议题：教育，「最重要的议题」，他当年作为部长亲自掌过；人工智能──应被「<em>掌握</em>」而不是「<em>承受</em>」的一场「<em>革命</em>」，路径是一项「五年内对两千万职工的培训计划」；医疗可及性──「最大的不平等之一」；养老金制度改革，他主张做成全民统一制，并摆脱「按法定退休年龄一刀切」；接下来几周他还要详述更多主张：缩小工资税前税后的差距、用「<em>进步原则</em>」取代「<em>预防原则</em>」<em>principe de précaution</em>、按社会伙伴划定的需求每年表决经济性移民配额……</p>
+
+  <p>Le Camarguais 酒吧的吧台后，老板娘 Maria Delpuech 观察着这一天的热闹。Gabriel Attal 当总统？「为什么不呢，」她偏头说，「不过我相信他有几个不好对付的对手。能有得选，这是好事。」</p>
+
+  <h2 class="intertitre">追赶 Philippe，挡住 Retailleau</h2>
+
+  <p>这位前总理押下一注：在民调中追上另一位 Matignon「<em>ex</em>」——Édouard Philippe，进而推动后者向自己靠拢。两个党的<span class="annot" data-pop="comite">「<em>comité de liaison</em>」联络委员会<sup>*</sup></span>已经在协调，正准备明年初围绕一名共同候选人达成一致。多位党内大佬认为，这是避免「第二轮 RN 对阵 LFI」这一剧本的前提。</p>
+  <div class="annot-text" id="ann-comite">
+    <strong>comité de liaison</strong>　RE 与 Édouard Philippe 的 Horizons 党之间正式设立的协调机构，定期碰头，处理选区策略、共同候选、立场协同等议题。性质介于「正式联盟」与「松散沟通」之间──不是合并、不是单一党，但也比临时电话联络要制度化。在此处理解为：两党彼此不再公开对抗，开始为未来的「单一候选」铺路，但谁来当这个单一候选还未定。
+  </div>
+
+  <p>但在共识达成之前，各人先各走各的。周五下午，Gabriel Attal 参观了 Mur-de-Barrez 的初中，之后前往 viaduc de Millau。周六，他打算参加 Aubrac 的「<em>转场节</em>」<em>fête de la transhumance</em>，与牛群同框，随后再前往省会 Rodez 的市集──那是他的盟友、原议员 Stéphane Mazars 主政的城市。</p>
+
+  <p>远离他在「<span class="annot" data-pop="bloc"><em>bloc central</em>──中间板块<sup>*</sup></span>」内的批评者──Élisabeth Borne、Yaël Braun-Pivet、Aurore Bergé──后者们斥之为「个人冒险」<em>aventure individuelle</em>──这位 RE 的候选人想把自己放到「<em>田野上</em>」<em>sur le terrain</em>。他的团队反复援引一个画面：2024 年 1 月农业人士示威高峰中，他立在一捆稻草后面发言的那个时刻。</p>
+  <div class="annot-text" id="ann-bloc">
+    <strong>«bloc central» / «socle commun»</strong>　所谓「中间板块」是 Macron 第二任期后媒体用来概括「中间偏左到中间偏右」这一围绕总统的执政联盟的总称，包含 RE（前 LREM）、MoDem、Horizons 等。「socle commun」（共同基石）则更进一步、专指 2024 年解散后由 RE、MoDem、Horizons 与 LR 部分议员组成的支持政府的议会基础。Borne、Braun-Pivet、Bergé 等位列 Macron 嫡系，对 Attal「单飞」式的提前参选感到不满──他们维护的是 Macron 的政治遗产框架，而 Attal 已经开始打<em>rupture</em>──决裂──这张牌。
+  </div>
+
+  <p>对他来说，一场新的、积极的竞选活动开始了。「积极、有动力，<em>permanente</em>──常态化的」，他的身边人这样定调。<span class="annot" data-pop="campper">「<em>campagne permanente</em>──常态化竞选<sup>*</sup></span>」。2024 年 6 月，议会解散令他措手不及，Gabriel Attal 试图把选民动员起来，直到总统阵营战败。「这是磨皮的活儿，」RE 党的领导层这样说。</p>
+  <div class="annot-text" id="ann-campper">
+    <strong>campagne permanente</strong>　这个表述源自美国政治传播研究：Sidney Blumenthal 1980 年的同名著作 <em>The Permanent Campaign</em> 提出，电视、民调与媒体化政治改变了执政的逻辑──执政本身变成竞选的延伸，从未真正进入「治理期」，永远处在为下一次选举做宣传的状态。法国政治圈在 Macron 之后大规模引入这个词，多带贬义──指候选人不再分「<em>执政</em>」「<em>反对</em>」「<em>竞选</em>」三个阶段，把所有公开露面都视作选举传播。Attal 的团队反而把「<em>permanente</em>」当作正面口号在用：自我宣示选战不间断、动力不停歇，把负面词意转用为效率信号。
+  </div>
+
+  <p>和他的策略团队一起，Gabriel Attal 立下了一条原则：他必须化身为 <em>rupture</em>──决裂──尽管他自 2017 年以来一直就在权力中心。「世界变了。Macron 如果现在再选，他自己也别无选择，只能拿出一份决裂纲领。」他私下这样说。相对于现任总统，他要让法国人看见，他不是同一种人格。这也是回应那些把他比作「<span class="annot" data-pop="bebe">Macron 小弟<sup>*</sup></span>」<em>bébé Macron</em>──他对此颇为反感──的人的一种姿态。</p>
+  <div class="annot-text" id="ann-bebe">
+    <strong>«bébé Macron»</strong>　法国政治圈和媒体常用的略带嘲讽的称呼，指那些被认为是 Emmanuel Macron 政治风格、举止、修辞甚至外形的「翻版」──多用于年轻、技术官僚出身、急速上升、又始终活在 Macron 阴影下的男性政治人物。对 Attal 来说，这个标签包含三层负面含义：缺乏自身的政治原创性；只是 Macronisme 在年轻一代的延伸；甚至有一种「养成系」、长辈替他铺路的暗示。Boichot 写「<em>à son grand dam</em>──令他大为光火」，是少见的让作者立场（或至少是文章观察到的当事人态度）短暂浮出的笔触。
+  </div>
+
+  <hr style="border:0;border-top:1px dashed var(--gris-ligne);margin:28px 0;">
+
+  <!-- Encadré: report-day event only -->
+  <div class="encadre">
+    <div class="encadre-label">本期报道当日 · L'événement du jour</div>
+    <h3>Attal 宣告参选 2027</h3>
+    <p class="encadre-sub">2026 年 5 月 22 日 · Mur-de-Barrez (Aveyron)</p>
+    <div class="cand hl">
+      <span class="cand-name">Gabriel Attal <em>député (Vanves), 37 ans</em></span>
+      <span class="cand-chip">RE</span>
+    </div>
+    <p style="font-size:11.5px;color:var(--gris-clair);font-style:italic;margin:8px 0 0;text-align:right;">见 Boichot 报道 · Le Figaro, p. 3</p>
+  </div>
+</article>
+
+<!-- ============================================================ -->
+<!-- PIECE 2: TABARD - PHILIPPE/ATTAL/RETAILLEAU                  -->
+<!-- ============================================================ -->
+<article id="piece2">
+  <div class="rubrique">Politique · L'analyse</div>
+  <h1 class="titre">Philippe、Attal、Retailleau：两人对一人</h1>
+  <p class="titre-fr">Philippe, Attal, Retailleau : à deux contre un</p>
+  <p class="signature">Guillaume Tabard · 阅读约 2 分钟</p>
+
+  <p class="dropcap">在三人的角力中，最好做那两人中的一个。这句话据传出自 <span class="annot" data-pop="bismarck">Bismarck<sup>*</sup></span>──他对力量对比与「<em>realpolitik</em>」这套学问，再清楚不过。Gabriel Attal 宣告参选之后，左翼与 RN 之间的那片地带──据目前估算占选民约三分之一──就有三人在争：三位党首──Édouard Philippe、Bruno Retailleau，以及现在加入的 Gabriel Attal──各自单飞，迎接来自民选官员、党员与公民的目光，他们都在追问这三人：能不能<em>jouer collectif</em>──打团体仗？</p>
+  <div class="annot-text" id="ann-bismarck">
+    <strong>Bismarck 与「à deux contre un」</strong>　Otto von Bismarck（1815–1898），德意志帝国首任宰相，<em>Realpolitik</em>──基于实力对比而非道义信仰的政治学说──的代表人物。他的著名格言 <em>«Quand il y a trois puissances, il vaut mieux être l'une des deux»</em>──「当有三方力量时，做那两个中的一个总比落单的那一个强」──常被引用以说明三角博弈的基本逻辑。Tabard 用 Bismarck 来框定 Philippe-Attal-Retailleau 的三人竞争：三方中迟早会形成「二对一」局面，被孤立的那一个将付出代价。
+  </div>
+
+  <p>三人中只能有一人晋级第二轮，这是明摆着的。要靠把另外两人边缘化才能做到这一点，也是必要条件。但要找到一条万无一失、人人服气的「<em>分胜负</em>」方法──没人相信。曾经主张党内初选的人──从 Gérald Darmanin 到 Laurent Wauquiez──如今也不再相信。说穿了，他们当初连初选的范围怎么划都谈不拢。所以剩下的唯一共同规则是：各自为战，看 2027 年初谁更靠前。Bismarck 的箴言就在这一点上发挥作用。</p>
+
+  <p>在理论上，这场三人竞赛中 Édouard Philippe 与 Gabriel Attal 之间存在一项默契，把 Bruno Retailleau 排除在外。如果明年年初，Jean-Luc Mélenchon 进入第二轮的风险变得很高──RN 进入第二轮看似板上钉钉──两位 Macron 的前总理已经达成共识：两人之中民调较低的一方，将退选支持另一方。</p>
+
+  <blockquote class="lead">
+    <p class="zh">前提是：他们各自都坚信自己会是民调较高的那一位。Le Havre 市长因为他在民调中实质性领先、且占据着最中央的位置；Hauts-de-Seine 省议员因为他坚信自己在竞选阶段会强过这位前政府首脑。</p>
+    <p class="sep"></p>
+    <p class="fr">«Étant entendu qu'ils sont chacun convaincu d'être celui-là. Le maire du Havre parce qu'il part avec une réelle avance dans les sondages et qu'il occupe la position la plus centrale ; le député des Hauts-de-Seine parce qu'il ne doute pas être meilleur en campagne que l'ancien chef de gouvernement.»</p>
+  </blockquote>
+
+  <p>若这一剧本成真，吃亏的是 LR 党魁 Retailleau──另外两人合力之后，他在第二轮「<em>pole position</em>」上的胜算就被压低。但 2027 年 1 月的局势，无法在 2026 年 5 月的局势中预读。通往团结的道路，悖论般地必须先经过对抗这一环节。在 Philippe 与 Attal 之间。</p>
+
+  <p>在原「<em>socle commun</em>」共同基石的三人组里，两位 Matignon「<em>ex</em>」前总理在路线上其实最接近。他们各自的票源最容易彼此渗透流动。要在内部抢占优势，2017 年那位总理（Philippe）和 2024 年那位总理（Attal）就要彼此较劲：谁更有创造力、更稳健、更有凝聚力、更能给人希望、更有胆识？同时也要让对方显得不是。Philippe 与 Attal 之间的较量将相当激烈──这正合 Retailleau 之意，他将利用这段时间安心往右翼<em>labourer</em>──深耕──他的票仓；同样，RE 的党魁则会往左翼<em>draguer</em>──挖墙脚。</p>
+
+  <blockquote class="lead">
+    <p class="zh">于是眼下，<em>真正</em>有共同利益的是<em>这两位</em>──Retailleau 与 Attal──他们将在彼此之间承担起一道左-右分野，意图把 Philippe 夹成「三明治」。</p>
+    <p class="sep"></p>
+    <p class="fr">«Dans l'immédiat, ce sont donc ces deux-là qui ont un intérêt commun : assumer entre eux un clivage gauche-droite, avec l'intention de prendre Philippe en sandwich.»</p>
+  </blockquote>
+</article>
+
+<!-- ============================================================ -->
+<!-- PIECE 3: ZENNOU - WILD PRIMARIES                             -->
+<!-- ============================================================ -->
+<article id="piece3">
+  <div class="rubrique">Chronique · Présidentielle 2027</div>
+  <h1 class="titre">既然候选人都拒绝党内初选，那就有「野生初选」</h1>
+  <p class="titre-fr">Puisque les candidats à la présidentielle refusent les primaires, il y aura des primaires sauvages</p>
+  <p class="signature">Albert Zennou · 阅读约 6 分钟</p>
+
+  <p class="dropcap">事情看起来已成定局：2027 年，右翼、中间、左翼，三方都不会再有任何党内初选。这一假设眼下看起来，跟「公共财政短期内重新平衡」一样不太可能发生。当事人们不想搞。即便仍在为这一原则辩护的人，态度也只剩下迟疑。</p>
+
+  <p>在右翼与中间板块，Édouard Philippe、Gabriel Attal 与 Gérald Darmanin 都不愿走这一遭。Bruno Retailleau 只在一个条件下接受：Édouard Philippe 必须同时参加。而后者──民调中常被列为最被看好的那一位──完全没有兴趣在党内承担一场可能损失大于收益的竞争。</p>
+
+  <p>在左翼，Jean-Luc Mélenchon 早就拍板。借着对自己阵营的压倒性主导，他已不等不靠地宣告参选，并拒斥任何会把他与社会党人放到同台竞争的初选。他不无嘲讽地指出，PS 上次总统候选人──Anne Hidalgo 2022 年的 1.74%──就足以让她阵营潜在的同行失去资格。PS、绿党与共产党，则不接受这个说法。</p>
+
+  <h2 class="intertitre">「野生初选」浮出水面</h2>
+
+  <p>缺了正式初选，另一种逻辑正在浮现：一场不愿自称为「<em>primaire</em>」的<span class="annot" data-pop="sauvage">「<em>primaire sauvage</em>──野生初选<sup>*</sup></span>」，它将在直到 2027 年第一轮投票之前，一直主导政治生活的结构。未来几个月、甚至到第一轮本身，都可能扮演一场巨大筛选程序的角色。</p>
+  <div class="annot-text" id="ann-sauvage">
+    <strong>«primaire sauvage»</strong>　Zennou 在此构造的一个分析性概念。「sauvage」在法语中意为「野生的」「未经管理的」，可加在多种社会现象前──「<em>grève sauvage</em>」（野猫式罢工）、「<em>camping sauvage</em>」（野营）──意指脱离正式组织框架的、自发的、缺乏约定规则的版本。「<em>primaire sauvage</em>」即指：没有正式初选的情况下，第一轮投票本身、或更糟糕地是民调走势、变成一种事实上的"筛选机制"──没有共识规则、没有调度日历、没有失败者撤选的承诺。Zennou 此处的诊断是：政党组织的传统权威已无法强加内部纪律，候选人们绕过党机器，直接在民意中建立自身合法性。
+  </div>
+
+  <p>在两轮制的总统选举里，候选人过多本身就是一剂可能致命的毒药──它会阻止来自同一政治空间的候选人之一进入第二轮。每一阵营都将在多元的个人野心与集体责任之间作出仲裁。选战需要联合；个人野心则推向分散。</p>
+
+  <p>在这场没有规则的初选里，选票不再是最主要的武器。真正的<em>juge de paix</em>──仲裁人──成了民调。投票意向曲线一步步取代了党员、党代会与党机器的角色。民调浮动晴雨表成了筛选可信候选人的工具，并喂养着对「<span class="annot" data-pop="voteutile"><em>vote utile</em>──有用票<sup>*</sup></span>」的争夺。</p>
+  <div class="annot-text" id="ann-voteutile">
+    <strong>vote utile</strong>　法文政治语汇中的常用术语，字面意思「有用的一票」。指选民放弃自己最偏好的候选人、转而支持一位"立场近似但更有可能晋级第二轮"的候选人，以避免本阵营的票被分散后让对手得利。在多候选人、两轮制的法国总统选举中，这是反复出现的关键变量。例如 2022 年第一轮，许多左翼选民最终把票投给 Mélenchon 而非 Jadot、Hidalgo 等人，正是<em>vote utile</em>逻辑使然。Zennou 在此指出：当正式初选机制缺位，民调就成了引导<em>vote utile</em>的事实工具──谁的曲线高，谁就吸走同阵营其他候选人的支持。
+  </div>
+
+  <p>问题简单清晰：不论右翼、中间还是左翼，每个板块在第一轮的票仓上限大约在 25% 左右。这点空间不够同一阵营多名候选人同时存活。于是每个有意者都将致力于说服选民：他是唯一能跨越第一轮门槛的人。<em>vote utile</em>从而变成了晋级的主要武器。</p>
+
+  <p>然而一场正式初选其实需要明确规则：所有人接受的日程、事前商定的投票形式、组织起来的辩论、以及最关键的──对赢家提供集体支持的承诺。「野生初选」里这些都没有。各人按自身利益、野心和战略算计制定自己的规则。眼下没有任何政党能强加集体纪律。Laurent Wauquiez 与 David Lisnard 仍在为「右翼澄清」呼吁；Marine Tondelier、Olivier Faure 或 François Ruffin 时不时提到「左翼共同候选」的想法。但没有人真有能力强加一个共同程序。政党早已不复昔日的权威，参选爱丽舍宫的人现在直接在民意中为自己建立合法性，越过党机器。</p>
+
+  <p>这种局面可能从根本上改变总统选举第一轮的性质。从历史上看，第一轮的主要功能是从所有候选人中筛选出晋级第二轮的两位决选人。但在 2027 年，它还可能同时变成一个每个政治阵营内部排名的机制──博弈的赌注不再仅仅是「<em>能否晋级</em>」，而是「<em>由谁来当本阵营未来几年的政治领袖</em>」。</p>
+
+  <p>直到 2027 年春天，竞争都将相当激烈。每个阵营都将致力于推出在面对 RN 时最稳健的那一位候选人──毕竟此刻 Marine Le Pen 或 Jordan Bardella 进入第二轮已被视为定数。中心问题因此转为：谁最能直面 RN？谁能阻止本阵营选票的分散──那种分散只会进一步喂大这个民族主义政党的势头？</p>
+
+  <h2 class="intertitre">右翼与中间的四条路线</h2>
+
+  <p>未来这一展开的战斗，不仅仅是选举层面的。它还是意识形态的、世代的、战略的。在右翼与中间，已经有四条政治路线在试图占据空间：Édouard Philippe 主张一种<em>centre droit gestionnaire et post-macroniste</em>──治理型、后 Macron 时代的中间偏右；Gabriel Attal 试图体现一种<em>libéralisme progressiste</em>──面向都市、温和选民的进步自由主义；Gérald Darmanin 主张一种更具<em>popular et sécuritaire</em>──民众化与安全主义气质的灵感，承袭自社会戴高乐主义；Bruno Retailleau 则要重新搭建一支不再羞于自称的保守右翼。</p>
+
+  <p>对 Macronisme 政绩的清算问题，将很快成为分野所在。Emmanuel Macron 看起来并不准备指定继承人。更进一步，那些想要接班的人，已经在与他的政治遗产拉开距离。Macronisme 可能会随着创始人一起政治性消失，没有任何潜在继承人真正主动承担这一遗产。即便 RE 这个原来的总统党，如今的姿态也是「<em>面向后 Macron 时代</em>」，而非「<em>守住总统的政绩</em>」。</p>
+
+  <p>初选的本质，是促使本来立场接近的候选人人工地放大差异。强调分歧通常比强调共识更有政治回报。在正式初选里，这些张力被共同规则和"最终联合"的前景所部分抑制；在野生初选里，则没有任何机制限制对抗的升级。这种现象在左翼可能更加剧烈，因为意识形态分歧本身就更深。Jean-Luc Mélenchon 与其潜在对手──Raphaël Glucksmann、François Hollande、其他社民派人物──之间的对抗，会异常激烈。<span class="annot" data-pop="irrec">「<em>gauches irréconciliables</em>──不可调和的左翼<sup>*</sup></span>」这一论断，可能再次得到验证。</p>
+  <div class="annot-text" id="ann-irrec">
+    <strong>«les gauches irréconciliables»</strong>　这一表述由 Manuel Valls 在担任总理期间于 2016 年提出（彼时是 PS 内部分歧的关键时刻──Frondeurs 反对 49.3 强行通过的劳动法、以及围绕 François Hollande 路线的内部分裂），原话指 PS 内部两支——温和现实派与左翼批判派——已不可调和。后来这一表述被频繁套用到整个左翼版图（PS、PCF、EELV、LFI、PP），用来概括「同一阵营内部，治国导向与抗议导向、改良主义与革命修辞之间的根本鸿沟」。Zennou 用它，是要预言 2027 年的「野生初选」会把这一裂痕再次撕开。
+  </div>
+
+  <p>正在酝酿的这场「野生/无序」初选，在每个阵营内部都可能演变为一场真正的政治内战。历史显示，此类内部冲突会留下持久的印记。然而，在缺乏一位无可争议，能碾压对手的候选人的条件下，情况真的可能有所不同吗？</p>
+</article>
+
+<!-- ============================================================ -->
+<!-- COPYRIGHT                                                    -->
+<!-- ============================================================ -->
+<div class="copyright">
+  <div class="block-zh">
+    <p>摘译自《Le Figaro》· 2026 年 5 月 23–24 日周末版 · N° 25 422</p>
+    <p>原文电子版：lefigaro.fr 主站 Mon compte；或通过 Kiosque Figaro 应用（iOS / Android），订阅用户访问当期 PDF</p>
+    <p>原文著作权归 Société du Figaro SAS 所有 — <em>Tous droits réservés</em></p>
+    <p>本页为非授权个人摘译稿，仅供非商业化的法语学习交流使用。</p>
+    <p>禁止任何商业用途、复制转载、改编、上传或二次出版本页面内容。</p>
+    <p>如需引用，请以《Le Figaro》原报道为准并标明出处。</p>
+  </div>
+  <hr class="sep-line">
+  <div class="block-fr">
+    <p>Source : Le Figaro · édition du week-end du 23–24 mai 2026 · N° 25 422</p>
+    <p>Article original : lefigaro.fr (Mon compte) ou via l'application Kiosque Figaro (iOS / Android), accès au PDF du jour réservé aux abonnés</p>
+    <p>© Société du Figaro SAS — Tous droits réservés</p>
+    <p>Cette page est une traduction personnelle non autorisée, à des fins exclusivement non commerciales et d'apprentissage du français.</p>
+    <p>Toute utilisation commerciale, reproduction, modification, mise en ligne ou republication du contenu est interdite.</p>
+    <p>Pour toute citation, veuillez vous référer à l'article original du Figaro en mentionnant la source.</p>
+  </div>
+  <p class="footer-claude">Claude (Anthropic) 译</p>
+</div>
+
+<a href="#" class="totop" id="totop" aria-label="回到顶部">↑</a>
+
+<script>
+(function(){
+  // Annotation click toggle
+  document.querySelectorAll('.annot').forEach(function(el){
+    el.addEventListener('click',function(e){
+      e.stopPropagation();
+      var key=el.getAttribute('data-pop');
+      var pop=document.getElementById('ann-'+key);
+      if(!pop)return;
+      // Close any other open ones, only one at a time on tap
+      document.querySelectorAll('.annot-text.show').forEach(function(other){
+        if(other!==pop)other.classList.remove('show');
+      });
+      pop.classList.toggle('show');
+    });
+  });
+  // Click outside closes individual annotations
+  document.addEventListener('click',function(e){
+    if(!e.target.closest('.annot') && !e.target.closest('.annot-text')){
+      if(!document.body.classList.contains('annot-all')){
+        document.querySelectorAll('.annot-text.show').forEach(function(p){p.classList.remove('show');});
+      }
+    }
+  });
+  // Global toggle
+  var chk=document.getElementById('annotAll');
+  var lbl=document.getElementById('annotLabel');
+  chk.addEventListener('change',function(){
+    document.body.classList.toggle('annot-all',chk.checked);
+    lbl.textContent=chk.checked?'Hide notes':'Notes';
+  });
+  // Back to top
+  var totop=document.getElementById('totop');
+  window.addEventListener('scroll',function(){
+    if(window.scrollY>600){totop.classList.add('show');}else{totop.classList.remove('show');}
+  });
+  totop.addEventListener('click',function(e){
+    e.preventDefault();
+    window.scrollTo({top:0,behavior:'smooth'});
+  });
+
+  // ===== TOC scrollspy =====
+  var articles = document.querySelectorAll('article[id]');
+  var tocLinks = document.querySelectorAll('.toc a[href^="#"]');
+  function updateActiveTOC(){
+    var trigger = window.innerHeight * 0.30;
+    var activeId = null;
+    articles.forEach(function(a){
+      var r = a.getBoundingClientRect();
+      if(r.top <= trigger && r.bottom > trigger){activeId = a.id;}
+    });
+    tocLinks.forEach(function(link){
+      var li = link.parentElement;
+      var t = link.getAttribute('href').slice(1);
+      if(activeId === t){li.classList.add('active');}
+      else{li.classList.remove('active');}
+    });
+  }
+  var ticking = false;
+  window.addEventListener('scroll',function(){
+    if(!ticking){
+      window.requestAnimationFrame(function(){updateActiveTOC();ticking=false;});
+      ticking = true;
+    }
+  },{passive:true});
+  updateActiveTOC();
+})();
+</script>
+
+</body>
+</html>
